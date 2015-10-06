@@ -17,24 +17,24 @@ var myvar = 'my value';
 ```
 
 > output:
->-
+>- undefined
 >-
 >-
 > why?
->-
+>- Because the declaration myvar is being hoisted to the top, while the value is not.
 >-
 >-
 >-
 >-
 >-
 > rewrite without hoisting
+>- var myvar = 'my value';
 >-
->-
->-
->-
->-
->-
->-
+>-function(){
+>-	var myvar;
+>-	console.log (myvar;
+>-	myvar = 'local value';
+>-}
 >-
 >-
 >-
@@ -57,31 +57,33 @@ function test() {
 test();
 ```
 
-> output:
+> output: switch flag from false to true
 >-
 >-
 >-
 > why?
->-
+>- Flag is being declared in the if with a value of false while in the else is has the value of true
 >-
 >-
 >-
 >-
 >-
 > rewrite without hoisting
->-
->-
->-
->-
->-
->-
->-
->-
->-
->-
->-
->-
 
+var flag = true; 
+
+  function test() {
+  var flag;
+    if(flag) {
+        flag = false;
+         console.log('Switch flag from true to false');
+     }
+    else {
+         flag = true;
+         console.log('Switch flag from false to true');
+    }
+}
+ test();
 
 ```js
 var message = 'Hello world'; 
@@ -93,12 +95,12 @@ function saySomething() {
 saySomething();
 ```
 
-> output:
+> output: undefined
 >-
 >-
 >-
 > why?
->-
+>- foo bar is being hoisted to the top w/o its definition
 >-
 >-
 >-
@@ -106,7 +108,14 @@ saySomething();
 >-
 > rewrite without hoisting
 >-
->-
+var message = 'Hello world'; 
+
+ function saySomething() {
+ 	var message;
+    console.log(message);
+    message = 'Foo bar';
+}
+saySomething();
 >-
 >-
 >-
@@ -128,7 +137,7 @@ function saySomething() {
 saySomething();
 ```
 
-> output:
+> output: Hello World
 >-
 >-
 >-
@@ -155,12 +164,12 @@ function test() {
 test();
 ```
 
-> output:
+> output: undefined
 >-
 >-
 >-
 > why?
->-
+>-	"a" is being called before it is defined. It is being hoisted up without being defined
 >-
 >-
 >-
@@ -168,7 +177,17 @@ test();
 >-
 > rewrite without hoisting
 >-
->-
+>-function test() {
+	var a =1;
+    console.log(a);
+    console.log(foo());
+
+    function foo() {
+        return 2;
+    }
+}
+
+test();
 >-
 >-
 >-
@@ -194,11 +213,11 @@ test();
 })();
 ```
 
-> output:
+> output: undefined and aloha
 >-
 >-
 >-
-> why?
+> why? Function foo is being run while var bar is being hoisted without being defined. 
 >-
 >-
 >-
@@ -207,6 +226,18 @@ test();
 >-
 > rewrite without hoisting
 >-
+(function() {
+   var bar = 1;
+    console.log(bar);
+    foo();
+
+    function foo() {
+        console.log('aloha');
+    }
+
+ 
+    baz = 2;
+})();
 >-
 >-
 >-
@@ -237,12 +268,12 @@ function fancy(arg1, arg2) {
 fancy();
 ```
 
-> output:
+> output: I can run
 >-
 >-
 >-
 > why?
->-
+>- function run is being hoisted to the top, while the if statement is elavuating the run and evaluate to true inside the if.
 >-
 >-
 >-
@@ -250,7 +281,21 @@ fancy();
 >-
 > rewrite without hoisting
 >-
->-
+>-var run = false;
+
+function fancy(arg1, arg2) {
+    if(run) {
+        console.log('I can run');
+    }
+    else {
+        console.log('I can\'t run');
+    }
+
+    var run = function() {
+        console.log('Will I run?');
+    }
+}
+fancy();
 >-
 >-
 >-
@@ -266,26 +311,26 @@ fancy();
 var run = false;
 
 function fancy(arg1, arg2) {
-	if(run) {
-		console.log('I can run');
-	}
-	else {
-		console.log('I can\'t run');
-	}
+    if(run) {
+        console.log('I can run');
+    }
+    else {
+        console.log('I can\'t run');
+    }
 
-	var run = function() {
-		console.log('Will I run?');
-	}
+    function run() {
+        console.log('Will I run?');
+    }
 }
 fancy();
 ```
 
-> output:
+> output: I can't run
 >-
 >-
 >-
 > why?
->-
+>- var run is being declared but not defined which elavuate to false. the else is only being run 
 >-
 >-
 >-
@@ -293,7 +338,21 @@ fancy();
 >-
 > rewrite without hoisting
 >-
->-
+var run = false;
+
+function fancy(arg1, arg2) {
+    if(run) {
+        console.log('I can run');
+    }
+    else {
+        console.log('I can\'t run');
+    }
+
+    var run = function() {
+        console.log('Will I run?');
+    }
+}
+fancy();
 >-
 >-
 >-
